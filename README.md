@@ -1,4 +1,4 @@
-# new_app
+# Task Tracker App
 
 ## Project setup
 ```
