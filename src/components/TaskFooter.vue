@@ -1,6 +1,7 @@
 <template>
   <footer>
-      Copyright Fexavier &copy; 2022
+      <p>Copyright Fexavier &copy; 2022</p>
+      <router-link to="/about">About</router-link>
   </footer>
 </template>
 
@@ -14,6 +15,9 @@ name:'TaskFooter'
 footer{
     font-weight: 600;
     text-align: center;
-    padding-block: 10px;
+}
+
+a{
+  color: darkblue;
 }
 </style>

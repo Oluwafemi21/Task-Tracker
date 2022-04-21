@@ -1,7 +1,12 @@
 <template>
   <header>
     <h2>{{ title }}</h2>
-    <track-button buttonType="add" text="Add Task" />
+    <track-button
+      v-show="homePage"
+      @btn-click="$emit('toggle-view')"
+      :buttonType="showAddTask ? 'close' : 'add'"
+      :text="showAddTask ? 'Close' : 'Add Task'"
+    />
   </header>
 </template>
 
@@ -18,7 +23,19 @@ export default {
       type: String,
       required: true,
     },
+    showAddTask:{
+      type: Boolean
+    }
   },
+  computed:{
+    homePage(){
+      if(this.$route.path === '/'){
+        return true
+      } else {
+        return false
+      }
+    }
+  }
 };
 </script>
 

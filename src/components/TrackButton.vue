@@ -1,5 +1,5 @@
 <template>
-  <button :class="buttonType"> {{text}} </button>
+  <button @click="onClick()" :class="buttonType"> {{text}} </button>
 </template>
 
 <script>
@@ -12,7 +12,12 @@ export default {
         },
         buttonType:{
             type: String,
-            required: true
+            default: 'btn'
+        }
+    },
+    methods:{
+        onClick(){
+            this.$emit('btn-click')
         }
     }
 }
@@ -21,12 +26,15 @@ export default {
 <style scoped>
 .add{
     background-color: green;
-    color: white;
 }
 
-.del{
+.btn{
+    background-color: black;
+    width: 100%;
+}
+
+.close{
     background-color: crimson;
-    color: white;
 }
 
 </style>

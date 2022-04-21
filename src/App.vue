@@ -1,59 +1,52 @@
 <template>
   <div class="container">
-    <track-header title="Task Tracker"/>
-    <task-tracker @toggle-completed="toggleCompleted" @delete-task="deleteTask" :tasks="tasks"/>
+    <track-header @toggle-view="showAdd()" :showAddTask='showAddTask' title="Task Tracker"/>
+    <router-view :showAddTask='showAddTask'></router-view>
     <task-footer/>
   </div>
 </template>
 
 <script>
-import TaskFooter from './components/TaskFooter.vue'
-import TaskTracker from './components/TaskTracker.vue'
-import TrackHeader from './components/TrackHeader.vue'
 
+import TrackHeader from './components/TrackHeader.vue'
+import TaskFooter from './components/TaskFooter.vue'
 
 export default {
   name: 'App',
   components:{
     'track-header':TrackHeader,
-    'task-tracker': TaskTracker,
     'task-footer': TaskFooter
   },
   data(){
     return{
-      tasks:[]
+      showAddTask: false
     }
   },
   methods:{
-    deleteTask(id){
-      //Filters the task by displaying tasks that the id is not equal to the task clicked on
-      if(confirm('Do you want to delete the task?')){
-        this.tasks = this.tasks.filter(task => task.id !== id)
-      }
-    },
-    toggleCompleted(id){
-      this.tasks = this.tasks.map((task) => task.id === id ? {...task, completed: !task.completed} : task )
+    showAdd(){
+      this.showAddTask = !this.showAddTask
     }
   },
-  created (){
-    this.tasks = [
-        { id: 1, text: "Wash the dishes", completed: true},
-        { id: 2, text: "Spread the clothes", completed: true},
-        { id: 3, text: "Iron the clothes", completed: false },
-        { id: 4, text: "Watch Real Madrid", completed: false },
-      ]
+  //LifeCycle Hooks
+  async created (){
+    const res = await fetch('http://localhost:5000/tasks')
+    const data = await res.json();
+
+    this.tasks = data
   }
 }
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css?family=Poppins:100,100italic,200,200italic,300,300italic,regular,italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic');
+
 *{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 #app {
-  font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: 'Poppins', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   margin-top: 20px;
@@ -76,6 +69,7 @@ button{
   border-radius: 6px;
   font-weight: 600;
   border: 2px solid transparent;
+  color:white;
 }
 
 button:hover{
